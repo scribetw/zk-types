@@ -12,6 +12,16 @@
   "author": "Potix",
   "license": "MIT",
   "files": [
-    "index.d.ts"
+    "index.d.ts",
+    "globals.d.ts",
+    "jq.d.ts",
+    "zAu.d.ts",
+    "zjq.d.ts",
+    "zk.d.ts",
+    "zkex.d.ts",
+    "zkmax.d.ts",
+    "zul.d.ts",
+    "zUtl.d.ts",
+    "zWatch.d.ts"
   ]
 }
