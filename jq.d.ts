@@ -13,6 +13,7 @@ This program is distributed under LGPL Version 2.1 in the hope that
 it will be useful, but WITHOUT ANY WARRANTY.
 */
 /// <reference types="jquery"/>
+/// <reference types="jquery.transit"/>
 
 declare namespace zk {
     type Offset = [number, number];
