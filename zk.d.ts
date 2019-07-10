@@ -272,6 +272,7 @@ declare namespace zk {
         readonly alerting: boolean;
         readonly android: boolean;
         appName: string;
+        Buffer: Buffer;
         readonly booted: boolean;
         readonly build: string;
         readonly busy: number;
@@ -391,7 +392,9 @@ declare namespace zk {
         stateless(dtid: string, contextURI: string, updateURI: string, reqURI: string): any;
     }
 
-    type Buffer = string[];
+    interface Buffer extends Array<string> {
+        new (): Buffer;
+    }
 
     interface PositionOptions {
         overflow: boolean;
