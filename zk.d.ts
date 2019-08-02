@@ -81,7 +81,7 @@ declare namespace zk {
         beforeParentChanged_(newparent: Widget): void;
         beforeSendAU_(wgt: Widget, evt: Event): void;
         bind_(dt: Desktop, skipper: Skipper, after: any[]): void;
-        bind(dt: Desktop, skipper: Skipper): void;
+        bind(dt: Desktop, skipper?: Skipper): void;
         bindChildren_(dt: Desktop, skipper: Skipper, after: any[]): void;
         bindDoubleTap_(): void;
         bindSwipe_(): void;
@@ -186,7 +186,7 @@ declare namespace zk {
         onChildVisible_(child: Widget): void;
         onDrop_(drag: any, evt: Event): void;
         redraw(out: string[]): void;
-        redrawHTML_(skipper: Skipper, trim: boolean): string;
+        redrawHTML_(skipper?: Skipper, trim?: boolean): string;
         removeChild(child: Widget, ignoreDom?: boolean): boolean;
         removeChildHTML_(child: Widget, ignoreDom?: boolean): void;
         removeHTML_(n: any[]): void;
