@@ -14,6 +14,7 @@ it will be useful, but WITHOUT ANY WARRANTY.
 */
 /// <reference types="jquery"/>
 /// <reference types="jquery.transit"/>
+/// <reference types="jquery-mousewheel"/>
 
 declare namespace zk {
     type Offset = [number, number];

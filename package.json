@@ -8,7 +8,8 @@
   },
   "dependencies": {
     "@types/jquery": "^1.10.35",
-    "@types/jquery.transit": "^0.9.29"
+    "@types/jquery.transit": "^0.9.29",
+    "@types/jquery-mousewheel": "^3.1.8"
   },
   "author": "Potix",
   "license": "MIT",
