@@ -125,7 +125,7 @@ declare namespace zk {
         fire(evtnm: string, data: any, opts?: any, timeout?: number): Event;
         fireX(evt: Event, timeout?: number): void;
         focus_(timeout: number): boolean;
-        focus(timeout: number): boolean;
+        focus(timeout?: number): boolean;
         forcerender(): void;
         fromPageCoord(x: number, y: number): Offset;
         get(name: string): any;
