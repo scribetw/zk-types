@@ -389,7 +389,7 @@ declare namespace zk {
         stamp(): any;
         stamp(name: string, noAutoLog: boolean): void;
         startProcessing(timeout: number): void;
-        stateless(dtid: string, contextURI: string, updateURI: string, reqURI: string): any;
+        stateless(dtid?: string, contextURI?: string, updateURI?: string, reqURI?: string): any;
     }
 
     interface Buffer extends Array<string> {
