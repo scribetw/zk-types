@@ -80,9 +80,9 @@ declare namespace zk {
         appendChild(child: Widget, ignoreDom?: boolean): boolean;
         beforeParentChanged_(newparent: Widget): void;
         beforeSendAU_(wgt: Widget, evt: Event): void;
-        bind_(dt: Desktop, skipper: Skipper, after: any[]): void;
-        bind(dt: Desktop, skipper?: Skipper): void;
-        bindChildren_(dt: Desktop, skipper: Skipper, after: any[]): void;
+        bind_(dt?: Desktop, skipper?: Skipper, after?: any[]): void;
+        bind(dt?: Desktop, skipper?: Skipper): void;
+        bindChildren_(dt?: Desktop, skipper?: Skipper, after?: any[]): void;
         bindDoubleTap_(): void;
         bindSwipe_(): void;
         bindTapHold_(): void;
@@ -235,9 +235,9 @@ declare namespace zk {
         shallIgnoreClick_(evt: Event): boolean;
         show(): Widget;
         smartUpdate(name: string, value: any, timeout?: number): Widget;
-        unbind_(skipper: Skipper, after: any[], keepRod: boolean): void;
-        unbind(dt: Desktop, skipper: Skipper, keepRod: boolean): Widget;
-        unbindChildren_(skipper: Skipper, after: any[], keepRod: boolean): void;
+        unbind_(skipper?: Skipper, after?: any[], keepRod?: boolean): void;
+        unbind(dt?: Desktop, skipper?: Skipper, keepRod?: boolean): Widget;
+        unbindChildren_(skipper?: Skipper, after?: any[], keepRod?: boolean): void;
         unbindDoubleTap_(): void;
         unbindSwipe_(): void;
         unbindTapHold_(): void;
