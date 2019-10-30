@@ -348,7 +348,7 @@ declare namespace zk {
         afterAuResponse(fn: () => void): void;
         afterLoad(func: () => void): boolean;
         afterLoad(pkgs: string, func: () => void): void;
-        afterMount(fn: () => void, delay: number): boolean;
+        afterMount(fn: () => void, delay?: number): boolean;
         afterResize(fn: () => void): void;
         ajaxURI(uri: string, opts?: any): string;
         animating(): boolean;
