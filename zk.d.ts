@@ -381,6 +381,7 @@ declare namespace zk {
         override(dst: any, nm: string, val: any): any;
         parseFloat(v: string): number;
         parseInt(v: string, b?: number): number;
+        resourceURI(uri: string, version?: string): string;
         set(dst: any, src: any, props: any[], ignoreUndefined: boolean): any;
         set(o: any, name: string, value: any, extra: any): any;
         setHost(host: string, updURI: string, pkgs: string[]): void;
