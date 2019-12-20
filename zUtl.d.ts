@@ -47,8 +47,8 @@ declare namespace zk {
         destroyProgressbox(id: string): void;
         encodeXML(txt: string, opts?: Partial<EncodeXmlOptions>): string;
         encodeXMLAttribute(txt: string): string;
-        fireShown(wgt: any, bfsz: number): void;
-        fireSized(wgt: any, bfsz: number): void;
+        fireShown(wgt: any, bfsz?: number): void;
+        fireSized(wgt: any, bfsz?: number): void;
         frames(w: Window): Window[];
         getDevicePixelRatio(): number;
         getUserMedia(constraints: MediaStreamConstraints): Promise<MediaStream>;
