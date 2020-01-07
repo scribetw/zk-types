@@ -63,8 +63,8 @@ declare namespace zk {
         onError(fn: (req: XMLHttpRequest, errCode: number) => boolean): void;
         process(cmd: string, data: string): void;
         processing(): boolean;
-        send(aureq: Event, timeout: number): void;
-        sendAhead(aureq: Event, timeout: number): void;
+        send(aureq: Event, timeout?: number): void;
+        sendAhead(aureq: Event, timeout?: number): void;
         sendNow(dt: any): boolean;
         setErrorURI(code: number, uri: string): void;
         setErrorURI(errors: {[code: number]: string}): void;

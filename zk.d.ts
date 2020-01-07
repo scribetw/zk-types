@@ -489,7 +489,7 @@ declare namespace zk {
         slideUp(wgt: Widget, opts?: Partial<SlideOptions>): JQZK;
         submit(): JQZK;
         sumStyles(areas: string, styles: {[cssProp: string]: string}): number;
-        textSize(text: string): [number, number];
+        textSize(text?: string): [number, number];
         toStyleOffset(x: number, y: number): Offset;
         undoVParent(): JQZK;
         vflexHeight(): number;
