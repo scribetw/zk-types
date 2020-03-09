@@ -251,7 +251,7 @@ declare namespace zk {
         [key: string]: any;
     }
 
-    interface WidgetStatic {
+    interface WidgetStatic extends ObjectStatic {
         auDelay: number;
 
         $(n: any, opts?: any): Widget;
