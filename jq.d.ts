@@ -48,7 +48,7 @@ declare namespace zk {
         j2d(s: string): Date;
         newFrame(id: string, src?: string, style?: string | null): HTMLIFrameElement;
         newHidden(nm: string, val: string, parent?: Node): HTMLInputElement;
-        newStackup(el: Node, id: string, anchor: Node): HTMLIFrameElement;
+        newStackup(el: Node, id: string, anchor?: Node): HTMLIFrameElement;
         nodeName(el: Node): string;
         nodeName(el: Node, ...tag: string[]): boolean;
         onSyncScroll(wgt: any): void;
