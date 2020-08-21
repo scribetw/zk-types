@@ -483,7 +483,7 @@ declare namespace zk {
         scrollTo(): JQZK;
         select(timeout?: number): boolean;
         setSelectionRange(start: number, end?: number): JQZK;
-        /** @deprecated */ setStyles(styles: JQueryCssProperties): JQZK;
+        /** @deprecated */ setStyles(styles: JQuery.PlainObject<string | number | ((this: HTMLElement, index: number, value: string) => string | number | void | undefined)>): JQZK;
         slideDown(wgt: Widget, opts?: Partial<SlideOptions>): JQZK;
         slideIn(wgt: Widget, opts?: Partial<SlideOptions>): JQZK;
         slideOut(wgt: Widget, opts?: Partial<SlideOptions>): JQZK;
