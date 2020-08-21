@@ -1,14 +1,14 @@
 {
   "name": "zk-types",
-  "version": "9.0.0",
+  "version": "9.5.0",
   "description": "Type definitions for ZK",
   "repository": {
     "type": "git",
     "url": "https://github.com/zkoss/zk/"
   },
   "dependencies": {
-    "@types/jquery": "^1.10.35",
-    "@types/jquery.transit": "^0.9.29",
+    "@types/jquery": "^3.5.1",
+    "@types/jquery.transit": "^0.9.30",
     "@types/jquery-mousewheel": "^3.1.8"
   },
   "author": "Potix",

@@ -24,7 +24,7 @@ declare namespace zk {
         margins: {l: string, r: string, t: string, b: string};
         paddings: {l: string, r: string, t: string, b: string};
     
-        $$(id: "", subId?: string): null;
+        $$(id: '', subId?: string): null;
         $$(id: string, subId?: string): NodeList;
         $$<T>(id: T, subId?: string): T;
         alert(msg: string): void;
@@ -74,6 +74,7 @@ declare namespace zk {
     interface EventKeyData extends EventMetaData {
         keyCode: number | undefined;
         charCode: number | undefined;
+        key: string | undefined;
     }
 
     interface EventMouseData extends EventMetaData {
