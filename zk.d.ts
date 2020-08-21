@@ -36,8 +36,8 @@ declare namespace zk {
         proxy<A extends any[], R>(func: (...args: A) => R): (...args: A) => R;
         proxy<A0, A extends any[], R>(func: (arg0: A0, ...args: A) => R): (arg0: A0, ...args: A) => R;
         proxy<A0, A1, A extends any[], R>(func: (arg0: A0, arg1: A1, ...args: A) => R): (arg0: A0, arg1: A1, ...args: A) => R;
-        proxy<A0, A1, A2, A extends any[], R>(func: (arg0: A0, arg1: A1, arg2: A2, ...args: A) => R): (arg0: A0, arg1: A1, arg2 : A2, ...args: A) => R;
-        proxy<A0, A1, A2, A3, A extends any[], R>(func: (arg0: A0, arg1: A1, arg2: A2, arg3 : A3, ...args: A) => R): (arg0: A0, arg1: A1, arg2 : A2, arg3 : A3, ...args: A) => R;
+        proxy<A0, A1, A2, A extends any[], R>(func: (arg0: A0, arg1: A1, arg2: A2, ...args: A) => R): (arg0: A0, arg1: A1, arg2: A2, ...args: A) => R;
+        proxy<A0, A1, A2, A3, A extends any[], R>(func: (arg0: A0, arg1: A1, arg2: A2, arg3: A3, ...args: A) => R): (arg0: A0, arg1: A1, arg2: A2, arg3: A3, ...args: A) => R;
         proxy<AX, R>(func: (...args: AX[]) => R): (...args: AX[]) => R;
     }
 
@@ -171,9 +171,9 @@ declare namespace zk {
         insertChildHTML_(child: Widget, before: Widget, desktop: Desktop): void;
         isBinding(): boolean;
         isFloating_(): boolean;
-        isListen(evtnm: string, opts?: {any?: boolean, asapOnly?: boolean}): boolean;
+        isListen(evtnm: string, opts?: {any?: boolean; asapOnly?: boolean}): boolean;
         isRealElement(): boolean;
-        isRealVisible(opts?: {dom?: boolean, until?: Widget, strict?: boolean, cache?: any}): boolean;
+        isRealVisible(opts?: {dom?: boolean; until?: Widget; strict?: boolean; cache?: any}): boolean;
         isVisible(strict?: boolean): boolean;
         isWatchable_(name: string, p: Widget, cache: any): boolean;
         listen(infos: {[event: string]: any}, priority?: number): Widget;
@@ -203,7 +203,7 @@ declare namespace zk {
         set(name: string, value: any, extra?: any): Widget;
         setAction(action: string): void;
         setChildren(children: Widget[]): Widget;
-        setDomVisible_(n: Element, visible: boolean, opts?: {display?: boolean, visibility?: boolean}): void;
+        setDomVisible_(n: Element, visible: boolean, opts?: {display?: boolean; visibility?: boolean}): void;
         setDraggable(draggable: string): Widget;
         setDroppable(droppable: string): Widget;
         setFloating_(floating: boolean, opts?: {node?: Element}): Widget;
