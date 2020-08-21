@@ -350,6 +350,7 @@ declare namespace zk {
         afterLoad(pkgs: string, func: () => void): void;
         afterMount(fn: () => void, delay?: number): boolean;
         afterResize(fn: () => void): void;
+        ajaxResourceURI(uri: string, version?: string, opts?: any): string;
         ajaxURI(uri: string, opts?: any): string;
         animating(): boolean;
         beforeUnload(fn: () => string | null, opts?: {remove: boolean}): void;
