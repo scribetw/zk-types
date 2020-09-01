@@ -41,7 +41,7 @@ declare namespace zk {
         i0: string;
         img0: string;
     
-        appendAttr(nm: string, val: any, force?: boolean): void;
+        appendAttr(nm: string, val: any, force?: boolean): string;
         convertDataURLtoBlob(dataURL: string): Blob;
         decodeXML(txt: string): string;
         destroyProgressbox(id: string): void;
