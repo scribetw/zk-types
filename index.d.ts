@@ -18,6 +18,7 @@ it will be useful, but WITHOUT ANY WARRANTY.
 /// <reference path="zk.d.ts" />
 /// <reference path="zUtl.d.ts" />
 /// <reference path="zWatch.d.ts" />
+/// <reference path="zKeys.d.ts" />
 /// <reference path="zAu.d.ts" />
 /// <reference path="zul.d.ts" />
 /// <reference path="zkex.d.ts" />
