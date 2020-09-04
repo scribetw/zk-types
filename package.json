@@ -24,6 +24,7 @@
     "zkmax.d.ts",
     "zul.d.ts",
     "zUtl.d.ts",
-    "zWatch.d.ts"
+    "zWatch.d.ts",
+    "zKeys.d.ts"
   ]
 }

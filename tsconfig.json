@@ -24,6 +24,7 @@
         "zul.d.ts",
         "zUtl.d.ts",
         "zWatch.d.ts",
+        "zKeys.d.ts",
         "zk-tests.ts"
     ]
 }
