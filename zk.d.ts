@@ -194,10 +194,10 @@ declare namespace zk {
         replaceChildHTML_(child: Widget, n: Element, dt: Desktop, skipper: Skipper): void;
         replaceHTML(n: Element, desktop: Desktop, skipper: Skipper): Widget;
         replaceWidget(newwgt: Widget): void;
-        rerender(timeout: number): Widget;
-        rerender(skipper: Skipper): Widget;
+        rerender(timeout?: number): Widget;
+        rerender(skipper?: Skipper): Widget;
         rerenderLater_(): Widget;
-        rerenderNow_(skipper: Skipper): void;
+        rerenderNow_(skipper?: Skipper): void;
         scrollIntoView(): Widget;
         sendAU_(evt: Event, timeout: number): void;
         set(name: string, value: any, extra?: any): Widget;
