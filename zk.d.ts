@@ -336,7 +336,7 @@ declare namespace zk {
         (elementArray: Element[]): JQZK;
         (object: JQuery): JQZK;
 
-        $(): any;
+        $(n: any, opts?: Partial<{exact: boolean; strict: boolean; child: boolean}>): zk.Widget | null;
         $default(opts: any, defaults: any): any;
         $extends<S extends Class, D, D2>(superclass: S, members: D & ThisType<D & (S extends zul.WidgetStatic ? zul.Widget : Widget)>, staticMembers?: D2): object;
         $import(name: string, fn?: any): any;
