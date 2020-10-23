@@ -20,14 +20,14 @@ declare namespace zk {
     type Offset = [number, number];
 
     interface JQueryStaticExtension extends JQueryStatic {
-        borders: {l: string, r: string, t: string, b: string};
-        margins: {l: string, r: string, t: string, b: string};
-        paddings: {l: string, r: string, t: string, b: string};
+        borders: {l: string; r: string; t: string; b: string};
+        margins: {l: string; r: string; t: string; b: string};
+        paddings: {l: string; r: string; t: string; b: string};
     
         $$(id: '', subId?: string): null;
         $$(id: string, subId?: string): NodeList;
         $$<T>(id: T, subId?: string): T;
-        alert(msg: string): void;
+        alert(msg: string, opts?: Partial<AlertOptions>): void;
         clearSelection(): boolean;
         confirm(msg: string): boolean;
         css(elem: Node, name: string): string;
@@ -80,6 +80,14 @@ declare namespace zk {
     interface EventMouseData extends EventMetaData {
         pageX: number | undefined;
         pageY: number | undefined;
+    }
+
+    interface AlertOptions {
+        mode: 'os' | 'modal' | 'embedded' | 'overlapped' | 'popup' | 'highlighted';
+        title: string;
+        icon: 'QUESTION' | 'EXCLAMATION' | 'INFORMATION' | 'ERROR' | 'none' | string;
+        button: string;
+        desktop: zk.Desktop;
     }
 }
 
