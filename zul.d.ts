@@ -1,7 +1,7 @@
 /* zul.d.ts
 
 	Purpose:
-		Type definitions for ZK 9.0.0
+		Type definitions for ZK
 	Description:
 
 	History:
@@ -26,7 +26,7 @@ declare namespace zul {
         getContext(): string;
         getCtrlKeys(): string;
         getPopup(): string;
-        getTooltip(): string
+        getTooltip(): string;
         setContext(context: string): Widget;
         setContext(context: any): Widget;
         setCtrlKeys(keys: string): Widget;

@@ -1,7 +1,7 @@
 /* jq.d.ts
 
 	Purpose:
-		Type definitions for ZK 9.0.0
+		Type definitions for ZK
 	Description:
 
 	History:
@@ -32,7 +32,7 @@ declare namespace zk {
         confirm(msg: string): boolean;
         css(elem: Node, name: string): string;
         css(elem: Node, name: string, extra: 'styleonly', styles?: CSSStyleDeclaration): number;
-        d2j(d: Date): string;
+        d2j(d: Date | DateImpl): string;
         doSyncScroll(): void;
         evalJSON(s: string): any;
         filterTextStyle(style: string, plus?: string[]): string;
@@ -86,13 +86,17 @@ declare namespace zk {
         mode: 'os' | 'modal' | 'embedded' | 'overlapped' | 'popup' | 'highlighted';
         title: string;
         icon: 'QUESTION' | 'EXCLAMATION' | 'INFORMATION' | 'ERROR' | 'none' | string;
-        button: string;
+        button: string | Record<string, unknown>;
         desktop: zk.Desktop;
     }
 }
 
 interface JQuery {
     zk: zk.JQZK;
+    after(widget: zk.Widget, dt?: zk.Desktop): this;
+    append(widget: zk.Widget, dt?: zk.Desktop): this;
+    before(widget: zk.Widget, dt?: zk.Desktop): this;
+    prepend(widget: zk.Widget, dt?: zk.Desktop): this;
 }
 
 interface JQueryEventObject {
@@ -103,7 +107,7 @@ interface JQueryEventObject {
 }
 
 interface JQueryEventConstructor {
-    filterMetaData(data: object): zk.EventMetaData;
+    filterMetaData(data: Record<string, unknown>): zk.EventMetaData;
     fire(el: Element, evtnm: string): void;
     stop(evt: JQueryEventObject): void;
     zk(evt: JQueryEventObject, wgt: zk.Widget): zk.Event;

@@ -1,7 +1,7 @@
 /* zWatch.d.ts
 
 	Purpose:
-		Type definitions for ZK 9.0.0
+		Type definitions for ZK
 	Description:
 
 	History:
@@ -33,9 +33,10 @@ declare namespace zk {
     interface FireOptions {
         reverse: boolean;
         timeout: number;
+        rtags: {[key: string]: any};
     }
 
-    interface zWatch {
+    interface ZWatch {
         fire(name: string, origin: any, opts?: Partial<FireOptions>, ...vararg: any[]): void;
         fireDown(name: string, origin: any, opts?: Partial<FireOptions>, ...vararg: any[]): void;
         listen(infs: Partial<ClientActivity>): void;
@@ -44,4 +45,4 @@ declare namespace zk {
     }
 }
 
-declare var zWatch: zk.zWatch;
+declare var zWatch: zk.ZWatch;

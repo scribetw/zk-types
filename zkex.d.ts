@@ -1,7 +1,7 @@
 /* zkex.d.ts
 
 	Purpose:
-		Type definitions for ZK 9.0.0
+		Type definitions for ZK
 	Description:
 
 	History:
@@ -13,7 +13,7 @@ This program is distributed under LGPL Version 2.1 in the hope that
 it will be useful, but WITHOUT ANY WARRANTY.
 */
 declare namespace zk {
-    type ZKEX = any;
+    type ZKEX = Record<string, any>;
 }
 
 declare var zkex: zk.ZKEX;

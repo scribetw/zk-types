@@ -1,7 +1,7 @@
 /* globals.d.ts
 
 	Purpose:
-		Type definitions for ZK 9.0.0
+		Type definitions for ZK
 	Description:
 
 	History:
@@ -23,8 +23,23 @@ interface String {
 interface Array<T> {
     $indexOf(o: T): number;
     $contains(o: T): boolean;
-    $equals(o: any): boolean;
+    $equals(o: Record<string, unknown>): boolean;
     $remove(o: T): boolean;
     $addAll(o: T[]): number;
     $clone(): T[];
+}
+
+// mount.js
+declare function zkdt(dtid: string, contextURI: string, updateURI: string, resourceURI: string, reqURI: string): zk.Desktop;
+declare function zkx(wi, extra, aucmds, js?: string): void;
+declare function zkx_(args: any, stub: (child: zk.Widget) => void, filter?): void;
+declare function zkac(): void;
+declare function zkmx(): void;
+declare function zkmb(bindOnly: boolean): void;
+declare function zkme(): void;
+declare function zkdh(name: string, script: string): void;
+// zk.wpd
+declare function $eval(x: string): any;
+
+declare class DateImpl extends Date {
 }

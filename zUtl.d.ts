@@ -1,7 +1,7 @@
 /* zUtl.d.ts
 
 	Purpose:
-		Type definitions for ZK 9.0.0
+		Type definitions for ZK
 	Description:
 
 	History:
@@ -36,7 +36,7 @@ declare namespace zk {
         busy: boolean;
     }
     
-    interface zUtl {
+    interface ZUtl {
         cellps0: string;
         i0: string;
         img0: string;
@@ -44,25 +44,25 @@ declare namespace zk {
         appendAttr(nm: string, val: any, force?: boolean): string;
         convertDataURLtoBlob(dataURL: string): Blob;
         decodeXML(txt: string): string;
-        destroyProgressbox(id: string): void;
+        destroyProgressbox(id: string, opts?: Partial<{ busy: boolean; }>): void;
         encodeXML(txt: string, opts?: Partial<EncodeXmlOptions>): string;
         encodeXMLAttribute(txt: string): string;
-        fireShown(wgt: any, bfsz?: number): void;
-        fireSized(wgt: any, bfsz?: number): void;
+        fireShown(wgt: zk.Widget, bfsz?: number): void;
+        fireSized(wgt: zk.Widget, bfsz?: number): void;
         frames(w: Window): Window[];
         getDevicePixelRatio(): number;
         getUserMedia(constraints: MediaStreamConstraints): Promise<MediaStream>;
         getWeekOfYear(year: number, month: number, date: number, firstDayOfWeek: number, minimalDaysInFirstWeek: number): number;
         go(url: string, opts?: Partial<GoOptions>): void;
         intsToString(ary: number[]): string;
-        isAncestor(p: any, c: any): boolean;
+        isAncestor(p: zk.Widget, c: zk.Widget): boolean;
         isChar(cc: string, opts?: Partial<IsCharOptions>): boolean;
         isImageLoading(): boolean;
         loadImage(url: string): void;
         mapToString(map: any, assign?: string, separator?: string): string;
         /** @deprecated */ now(): number;
         parseMap(text: string, separator?: string, quote?: string): {[key: string]: string};
-        progressbox(id: string, msg: string, mask: boolean, icon?: string, opts?: Partial<ProgressboxOptions>): void;
+        progressbox(id: string, msg: string, mask: boolean, icon?: string | null, opts?: Partial<ProgressboxOptions>): void;
         stringToInts(text: null, defaultValue: number): null;
         stringToInts(text: string, defaultValue: number): number[];
         today(full: boolean, tz: string): Date;
@@ -70,4 +70,4 @@ declare namespace zk {
     }
 }
 
-declare var zUtl: zk.zUtl;
+declare var zUtl: zk.ZUtl;

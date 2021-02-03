@@ -1,7 +1,7 @@
 /* zjq.d.ts
 
 	Purpose:
-		Type definitions for ZK 9.0.0
+		Type definitions for ZK
 	Description:
 
 	History:
@@ -16,6 +16,7 @@ declare namespace zk {
     interface ZJQ {
         eventTypes: {[key: string]: string};
         src0: string;
+        prototype: Record<string, unknown>;
     
         _afterOuter(o: Element): void;
         _beforeOuter(el: Element): Node;

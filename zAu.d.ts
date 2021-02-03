@@ -1,7 +1,7 @@
 /* zAu.d.ts
 
 	Purpose:
-		Type definitions for ZK 9.0.0
+		Type definitions for ZK
 	Description:
 
 	History:
@@ -13,67 +13,105 @@ This program is distributed under LGPL Version 2.1 in the hope that
 it will be useful, but WITHOUT ANY WARRANTY.
 */
 declare namespace zk {
-    interface EventOptions {
+    type ErrorHandler = (response: Response, errCode: number) => boolean;
+    type AjaxErrorHandler = (req: Response, status: number, statusText: string, ajaxReqTries?: number | null) => number;
+
+    interface AuCommand {
+        cmd: string;
+        data: any; // command-specific
+    }
+
+    interface AuCommands extends Array<AuCommand> {
+        rid?: number;
+        dt?: zk.Desktop;
+        pfIds?: string | null;
+        rtags?: Record<string, unknown>;
+    }
+
+    interface AuRequestInfo {
+        sid: number;
+        uri: string;
+        dt: zk.Desktop;
+        content: string;
         implicit: boolean;
         ignorable: boolean;
-        toServer: boolean;
-        uri: string;
-        rtags: {[key: string]: any};
-    }
-
-    interface EventStopOptions {
-        revoke: boolean;
-        propagation: boolean;
-        dom: boolean;
-        au: boolean;
-    }
-
-    interface Event {
-        auStopped: boolean;
-        currentTarget: Widget;
-        data: any;
-        domEvent: JQueryEventObject;
-        domStopped: boolean;
-        domTarget: HTMLElement;
-        name: string;
-        opts: EventOptions;
-        stopped: boolean;
-        target: Widget;
-        [dataKey: string]: any; // If data is an instance of Map, its content is copied to the event instance.
-
-        addOptions(opts: Partial<EventOptions>): void;
-        stop(opts?: Partial<EventStopOptions>): void;
+        tmout: number;
+        rtags: Record<string, unknown>;
+        forceAjax: boolean;
     }
 
     interface AUEngine {
-        ajaxSettings: JQueryAjaxSettings;
-        cmd0: any;
-        cmd1: any;
+        ajaxReq: boolean | null;
+        ajaxReqInf: zk.AuRequestInfo | null;
+        ajaxReqTries: number | null;
+        ajaxSettings: JQuery.AjaxSettings;
+        ajaxErrorHandler: AjaxErrorHandler | undefined;
+        cmd0: Record<string, Function>;
+        cmd1: Record<string, Function>;
+        disabledRequest: boolean;
+        doAfterProcessWgts: zk.Widget[] | null;
+        doneTime: number;
+        pendingReqInf: zk.AuRequestInfo | null;
+        processPhase: string | null;
+        sentTime: number;
+        seqId: number;
+        _cInfoReg: boolean;
+        _clientInfo: Array<unknown> | null;
+        _errCode: string | number | null;
+        _errURIs: Record<string, string>;
 
-        addAuRequest(dt: any, aureq: Event): void;
-        ajaxErrorHandler(req: XMLHttpRequest, status: number, statusText: string, ajaxReqTries?: number): void;
-        beforeSend(uri: string, aureq: Event): string;
+        _doCmds(sid?: number): void;
+        _fetch(input: RequestInfo, init?: RequestInit): Promise<Response>;
+        _pfdone(dt: zk.Desktop, pfIds?: string | null): void;
+        _pfrecv(dt: zk.Desktop, pfIds?: string | null): void;
+        _pfsend(dt: zk.Desktop, fetchOpts: RequestInit, completeOnly: boolean, forceAjax: boolean): void;
+        _onClientInfo(): void;
+        _onResponseReady(response: Response): void;
+        _onVisibilityChange(): void;
+        _respException(response: Response, reqInf: zk.AuRequestInfo, e: Error): boolean;
+        _respFailure(response: Response, reqInf: zk.AuRequestInfo, rstatus: number): boolean;
+        _respSuccess(response: Response, reqInf: zk.AuRequestInfo, sid: number): boolean;
+        _rmDesktop(dt: zk.Desktop, dummy: boolean): void;
+        _rmDesktopAjax(url: string, data: string, headers: Record<string, string>): void;
+        _resetTimeout(): void;
+        _storeStub(wgt: zk.Widget): void;
+        _wgt$(uuid: string): zk.Widget;
+        addAuRequest(dt: zk.Desktop, aureq: Event): void;
+        afterResponse(sid?: number): void;
+        ajaxReqResend(reqInf: zk.AuRequestInfo, timeout?: number): void;
+        beforeSend(uri: string, aureq: Event, dt?: zk.Desktop): string;
         confirmRetry(msgCode: string, msg2?: string): boolean;
-        createWidgets(codes: any[], fn: (wgts: Widget[]) => void, filter: (wgt: Widget) => Widget | null): void;
+        createWidgets(codes: any[], fn: (wgts: zk.Widget[]) => void, filter?: (wgt: zk.Widget) => zk.Widget | null): void;
         doCmds(dtid: string, rs: any[]): void;
-        encode(j: number, aureq: Event, dt: any): string;
-        getAuRequests(dt: any): any[]
+        encode(j: number, aureq: Event, dt: zk.Desktop): string;
+        getAuRequests(dt: zk.Desktop): Event[];
         getErrorURI(code: number): string;
         getPushErrorURI(code: number): string;
-        onError(fn: (req: XMLHttpRequest, errCode: number) => boolean): void;
+        onError(fn: ErrorHandler): void;
+        onResponseError(response: Response, errCode: number): boolean;
+        pfAddIds(dt: zk.Desktop, prop: string, pfIds?: string | null): void;
+        pfGetIds(response: Response): string | null;
         process(cmd: string, data: string): void;
         processing(): boolean;
+        pushReqCmds(reqInf: zk.AuRequestInfo, response: Response): boolean;
         send(aureq: Event, timeout?: number): void;
         sendAhead(aureq: Event, timeout?: number): void;
-        sendNow(dt: any): boolean;
+        sendNow(dt: zk.Desktop): boolean;
         setErrorURI(code: number, uri: string): void;
         setErrorURI(errors: {[code: number]: string}): void;
         setPushErrorURI(code: number, uri: string): void;
         setPushErrorURI(errors: {[code: number]: string}): void;
         shallIgnoreESC(): boolean;
-        showError(msgCode: string, msg2?: string, cmd?: string, ex?: Error): void;
-        unError(fn: (req: XMLHttpRequest, errCode: number) => boolean): void;
+        showError(msgCode: string, msg2?: string | null, cmd?: string | null, ex?: Error): void;
+        toJSON(target: zk.Widget, data: any): string;
+        unError(fn: ErrorHandler): void;
+        wrongValue_(wgt: zk.Widget, msg: string | false): void;
     }
+}
+
+interface Response {
+    responseText: string; // for compatibility
+    abort?: () => void;
 }
 
 declare var zAu: zk.AUEngine;

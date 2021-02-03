@@ -1,7 +1,7 @@
 /* zk.d.ts
 
 	Purpose:
-		Type definitions for ZK 9.0.0
+		Type definitions for ZK
 	Description:
 
 	History:
@@ -14,7 +14,6 @@ it will be useful, but WITHOUT ANY WARRANTY.
 */
 declare namespace zk {
     type Class = any;
-    type Desktop = any; // TODO
 
     interface ObjectStatic {
         isAssignableFrom(cls: Class): boolean;
@@ -25,6 +24,7 @@ declare namespace zk {
         $class: Class;
         $oid: number;
 
+        new (...args: unknown[]): this;
         $init(): void;
         $instanceof(klass: Class): boolean;
         $super(klass: Class, mtd: string, ...vararg: any[]): any;
@@ -47,13 +47,79 @@ declare namespace zk {
         skipped(wgt: Widget, child: Widget): boolean;
     }
 
+    interface DesktopStatic {
+        _dt: zk.Desktop | null;
+        _ndt: number;
+        all: Record<string, zk.Desktop>;
+
+        $(dtid: string): zk.Desktop;
+        sync(timeout: number): zk.Desktop | null;
+    }
+
+    interface Desktop extends Widget {
+        _aureqs: zk.Event[];
+        _pfDoneIds: string | null;
+        _pfRecvIds: string | null;
+        bindLevel: number;
+        className: 'zk.Desktop';
+        contextURI: string;
+        obsolete: boolean;
+        requestPath: string;
+        resourceURI: string;
+        stateless: boolean;
+        updateURI: string;
+        widgetName: 'desktop';
+        z_virnd: true;
+
+        new (dtid: string, contextURI: string, updateURI: string, resourceURI: string,
+             reqURI: string, stateless: boolean): Desktop;
+    }
+
+    export interface Event {
+        auStopped: boolean;
+        currentTarget: zk.Widget;
+        data: any;
+        domEvent: JQueryEventObject;
+        domStopped: boolean;
+        domTarget: HTMLElement;
+        name: string;
+        opts: Partial<EventOptions>;
+        stopped: boolean;
+        target: zk.Widget;
+        [dataKey: string]: any; // If data is an instance of Map, its content is copied to the event instance.
+
+        new(target: zk.Widget | null, name: string, data: any,
+            opts: Partial<EventOptions>,
+            domEvent?: JQueryEventObject): Event;
+        addOptions(opts: Partial<EventOptions>): void;
+        stop(opts?: Partial<EventStopOptions>): void;
+    }
+
+    interface EventOptions {
+        implicit: boolean;
+        ignorable: boolean;
+        toServer: boolean;
+        uri: string;
+        defer: boolean;
+        serverAlive: boolean;
+        forceAjax: boolean;
+        rtags: {[key: string]: any};
+    }
+
+    interface EventStopOptions {
+        revoke: boolean;
+        propagation: boolean;
+        dom: boolean;
+        au: boolean;
+    }
+
     interface Widget extends Object {
         $weave: any;
         autag: string;
         readonly bindLevel: number;
         className: string;
         readonly desktop: Desktop;
-        effects_: any;
+        effects_: Record<string, zk.Object>;
         readonly firstChild: Widget | null;
         readonly id: string;
         insertingBefore_: boolean;
@@ -65,6 +131,7 @@ declare namespace zk {
         readonly previousSibling: Widget | null;
         uuid: string;
         widgetName: string;
+        z_rod: boolean;
 
         $f(): {[id: string]: Widget};
         $f(id: string, global?: boolean): Widget;
@@ -90,7 +157,7 @@ declare namespace zk {
         cleanDrag_(): void;
         clear(): void;
         clearCache(): void;
-        cloneDrag_(drag: any, ofs: Offset): HTMLElement;
+        cloneDrag_(drag: any, ofs: zk.Offset): HTMLElement;
         deferRedraw_(out: string[]): void;
         deferRedrawHTML_(out: string[]): void;
         detach(): void;
@@ -127,7 +194,7 @@ declare namespace zk {
         focus_(timeout: number): boolean;
         focus(timeout?: number): boolean;
         forcerender(): void;
-        fromPageCoord(x: number, y: number): Offset;
+        fromPageCoord(x: number, y: number): zk.Offset;
         get(name: string): any;
         getAction(): string;
         getCaveNode(): HTMLElement;
@@ -167,8 +234,8 @@ declare namespace zk {
         ignoreDescendantFloatUp_(): boolean;
         ignoreDrag_(pt: any): boolean;
         initDrag_(): void;
-        insertBefore(child: Widget, sibling: Widget): boolean;
-        insertChildHTML_(child: Widget, before: Widget, desktop: Desktop): void;
+        insertBefore(child: Widget, sibling: Widget | null): boolean;
+        insertChildHTML_(child: Widget, before: Widget | null, desktop: Desktop): void;
         isBinding(): boolean;
         isFloating_(): boolean;
         isListen(evtnm: string, opts?: {any?: boolean; asapOnly?: boolean}): boolean;
@@ -197,7 +264,7 @@ declare namespace zk {
         rerender(timeout?: number): Widget;
         rerender(skipper?: Skipper): Widget;
         rerenderLater_(): Widget;
-        rerenderNow_(skipper?: Skipper): void;
+        rerenderNow_(skipper?: Skipper | null): void;
         scrollIntoView(): Widget;
         sendAU_(evt: Event, timeout: number): void;
         set(name: string, value: any, extra?: any): Widget;
@@ -266,25 +333,45 @@ declare namespace zk {
         uuid(subId: string): string;
     }
 
+    interface WidgetUtil {
+        autohide(): boolean;
+        replace(from: zk.Widget, to: zk.Widget, kids: boolean): void;
+        setUuid(wgt: zk.Widget, uuid: string): void;
+    }
+
     interface ZKCoreUtilityStatic {
+        _anique: Record<string, Anima[]>;
+        _crWgtUuids: string[];
+        _focusByClearBusy: boolean;
+        _isReloadingInObsolete: boolean;
+        _prevFocus: zk.Widget | undefined | null;
+        readonly _wgtutl: zk.WidgetUtil;
         readonly agent: string;
         readonly air: boolean;
         readonly alerting: boolean;
         readonly android: boolean;
         appName: string;
-        Buffer: Buffer;
+        ausending: boolean;
+        bmk: Record<string, any>;
+        readonly Buffer: Buffer;
         readonly booted: boolean;
         readonly build: string;
         readonly busy: number;
         readonly chrome: boolean;
         readonly classes: {[id: number]: any};
-        readonly clickPointer: Offset;
+        readonly clickPointer: zk.Offset;
+        clientinfo: Record<string, unknown>;
+        confirmClose: string | undefined;
         readonly css3: boolean;
-        currentFocus: Widget | undefined;
-        currentModal: any;
-        readonly currentPointer: Offset;
+        currentFocus: zk.Widget | undefined | null;
+        currentModal: zk.Widget | undefined | null;
+        readonly currentPointer: zk.Offset;
+        readonly Desktop: zk.DesktopStatic;
         DECIMAL: string;
+        readonly Event: zk.Event;
         readonly edge: number | false;
+        readonly edge_legacy: number | false;
+        eff: Record<string, zk.Object>;
         readonly ff: number | false;
         focusBackFix: boolean;
         readonly gecko: number | undefined;
@@ -306,30 +393,40 @@ declare namespace zk {
         readonly iex: number | undefined;
         readonly ios: string | false;
         readonly ipad: string | false;
-        keyCapture: Widget | undefined;
+        isTimeout: boolean;
+        keyCapture: zk.Widget | undefined;
         readonly linux: boolean;
         readonly loading: number;
         MINUS: string;
         readonly mac: boolean;
         readonly mobile: string | false;
-        readonly mounting: boolean;
-        mouseCapture: Widget | undefined;
+        mounting: boolean;
+        mouseCapture: zk.Widget | undefined;
+        mm: any;
         readonly Object: ObjectStatic;
         readonly opera: number | undefined;
         PER_MILL: string;
         PERCENT: string;
+        pfmeter: boolean;
+        portlet2Data: Record<string, Portlet2Data> | undefined;
         procDelay: number;
         readonly processing: boolean;
         resendTimeout: number;
         readonly safari: boolean;
+        rmDesktoping: boolean;
+        skipBfUnload: boolean;
         spaceless: boolean;
+        timeout: number;
+        timerAlive: boolean;
         tipDelay: number;
         readonly unloading: boolean;
-        readonly vender: string;
-        readonly vender_: string;
+        readonly vendor: string;
+        readonly vendor_: string;
         readonly version: string;
+        visibilitychange: boolean;
         readonly webkit: boolean;
         readonly Widget: WidgetStatic;
+        xhrWithCredentials: boolean;
 
         (selector: string): JQZK;
         (element: Element): JQZK;
@@ -337,31 +434,33 @@ declare namespace zk {
         (object: JQuery): JQZK;
 
         $(n: any, opts?: Partial<{exact: boolean; strict: boolean; child: boolean}>): zk.Widget | null;
-        $default(opts: any, defaults: any): any;
+        $default<T>(opts: any, defaults: T): T;
         $extends<S extends Class, D, D2>(superclass: S, members: D & ThisType<D & (S extends zul.WidgetStatic ? zul.Widget : Widget)>, staticMembers?: D2): object;
         $import(name: string, fn?: any): any;
         $intercepts(targetClass: Class, interceptor: any): void;
         $package(name: string): any;
         $void: () => false;
         addDataHandler(name: string, script: string): void;
-        afterAnimate(fn: () => void, delay: number): boolean;
+        afterAnimate(fn: () => void, delay?: number): boolean;
         afterAuResponse(fn: () => void): void;
         afterLoad(func: () => void): boolean;
         afterLoad(pkgs: string, func: () => void): void;
         afterMount(fn: () => void, delay?: number): boolean;
         afterResize(fn: () => void): void;
         ajaxResourceURI(uri: string, version?: string, opts?: any): string;
-        ajaxURI(uri: string, opts?: any): string;
+        ajaxURI(uri: string | null, opts?: any): string;
         animating(): boolean;
         beforeUnload(fn: () => string | null, opts?: {remove: boolean}): void;
         copy(dst: object, src: object, backup?: object): object;
         cut(props: any, nm: string): object;
         debugLog(msg: string): void;
         define(klass: any, props: any): any;
+        delayFunction(uuid: string, func: () => void, opts?: Partial<{ timeout: number; urgent: boolean }>): void;
         depends(a: string, b: string): void;
         disableESC(): void;
+        doAfterAuResponse(): void;
         enableESC(): void;
-        endProcessing(): void;
+        endProcessing(sid?: number): void;
         error(msg: string): void;
         errorDismiss(): void;
         get(o: any, name: string): any;
@@ -390,8 +489,15 @@ declare namespace zk {
         setVersion(pkg: string, ver: string): void;
         stamp(): any;
         stamp(name: string, noAutoLog: boolean): void;
-        startProcessing(timeout: number): void;
+        startProcessing(timeout: number, sid?: number): void;
         stateless(dtid?: string, contextURI?: string, updateURI?: string, reqURI?: string): any;
+    }
+
+    interface Anima {
+        anima: string;
+        el: HTMLElement;
+        wgt: zk.Widget;
+        opts: Record<string, unknown>;
     }
 
     interface Buffer extends Array<string> {
@@ -422,28 +528,35 @@ declare namespace zk {
         top: number;
     }
 
+    interface Portlet2Data {
+        namespace: string;
+        resourceURL: string;
+    }
+
     interface JQZK {
         jq: JQuery;
 
+        _createWrapper(element: JQuery): JQuery;
+        _removeWrapper(element: JQuery): JQuery;
         $(): Widget;
-        absolutize(): JQZK;
+        absolutize(): this;
         beforeHideOnUnbind(): void;
         borderHeight(): number;
         borderWidth(): number;
         cellIndex(): number;
-        center(flags?: string): JQZK;
+        center(flags?: string): this;
         cleanVisibility(): JQuery;
-        clearStyles(): JQZK;
-        cmOffset(): Offset;
+        clearStyles(): this;
+        cmOffset(): zk.Offset;
         contentHeight(excludeMargin?: boolean): number;
         contentWidth(excludeMargin?: boolean): number;
-        defaultAnimaOpts(wgt: any, opts: Partial<SlideOptions>, prop: string[], visible?: boolean): JQZK;
+        defaultAnimaOpts(wgt: zk.Widget, opts: Partial<SlideOptions>, prop: string[], visible?: boolean): this;
         detachChildren(): ChildNode[] | null;
         dimension(revised?: boolean): Dimension;
-        disableSelection(): JQZK;
-        enableSelection(): JQZK;
+        disableSelection(): this;
+        enableSelection(): this;
         focus(timeout?: number): boolean;
-        getAnimationSpeed(defaultValue?: string | number): string | number;
+        getAnimationSpeed(defaultValue?: 'slow' | 'fast' | number): 'slow' | 'fast' | number;
         getSelectionRange(): [number, number];
         hasHScroll(): boolean;
         hasVParent(): boolean;
@@ -454,7 +567,7 @@ declare namespace zk {
         isRealVisible(strict?: boolean): boolean;
         isScrollIntoView(): boolean;
         isVisible(strict?: boolean): boolean;
-        makeVParent(): JQZK;
+        makeVParent(): this;
         marginHeight(): number;
         marginWidth(): number;
         ncols(visibleOnly?: boolean): number;
@@ -470,31 +583,31 @@ declare namespace zk {
         padBorderWidth(): number;
         paddingHeight(): number;
         paddingWidth(): number;
-        position(dim?: Dimension, where?: string, opts?: Partial<PositionOptions>): JQZK;
-        position(el?: Element, where?: string, opts?: Partial<PositionOptions>): JQZK;
-        redoCSS(timeout?: number, opts?: Partial<RedoCSSOptions>): JQZK;
-        redoSrc(): JQZK;
-        relativize(): JQZK;
+        position(dim?: Dimension, where?: string, opts?: Partial<PositionOptions>): this;
+        position(el?: Element, where?: string, opts?: Partial<PositionOptions>): this;
+        redoCSS(timeout?: number, opts?: Partial<RedoCSSOptions>): this;
+        redoSrc(): this;
+        relativize(): this;
         revisedHeight(size: number, excludeMargin?: boolean): number;
-        revisedOffset(ofs?: Offset): Offset;
+        revisedOffset(ofs?: zk.Offset): zk.Offset;
         revisedWidth(size: number, excludeMargin?: boolean): number;
-        scrollIntoView(parent?: Element): JQZK;
-        scrollOffset(): Offset;
-        scrollTo(): JQZK;
+        scrollIntoView(parent?: Element): this;
+        scrollOffset(): zk.Offset;
+        scrollTo(): this;
         select(timeout?: number): boolean;
-        setSelectionRange(start: number, end?: number): JQZK;
-        /** @deprecated */ setStyles(styles: JQuery.PlainObject<string | number | ((this: HTMLElement, index: number, value: string) => string | number | void | undefined)>): JQZK;
-        slideDown(wgt: Widget, opts?: Partial<SlideOptions>): JQZK;
-        slideIn(wgt: Widget, opts?: Partial<SlideOptions>): JQZK;
-        slideOut(wgt: Widget, opts?: Partial<SlideOptions>): JQZK;
-        slideUp(wgt: Widget, opts?: Partial<SlideOptions>): JQZK;
-        submit(): JQZK;
+        setSelectionRange(start: number, end?: number): this;
+        /** @deprecated */ setStyles(styles: JQuery.PlainObject<string | number | ((this: HTMLElement, index: number, value: string) => string | number | void | undefined)>): this;
+        slideDown(wgt: Widget, opts?: Partial<SlideOptions>): this;
+        slideIn(wgt: Widget, opts?: Partial<SlideOptions>): this;
+        slideOut(wgt: Widget, opts?: Partial<SlideOptions>): this;
+        slideUp(wgt: Widget, opts?: Partial<SlideOptions>): this;
+        submit(): this;
         sumStyles(areas: string, styles: {[cssProp: string]: string}): number;
         textSize(text?: string): [number, number];
-        toStyleOffset(x: number, y: number): Offset;
-        undoVParent(): JQZK;
+        toStyleOffset(x: number, y: number): zk.Offset;
+        undoVParent(): this;
         vflexHeight(): number;
-        viewportOffset(): Offset;
+        viewportOffset(): zk.Offset;
         vparentNode(real?: boolean): HTMLElement;
     }
 }

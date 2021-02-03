@@ -1,7 +1,7 @@
 /* zKeys.d.ts
 
     Purpose:
-        Type definitions for ZK 9.5.0
+        Type definitions for ZK
     Description:
 
     History:
