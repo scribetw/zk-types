@@ -45,18 +45,18 @@ declare namespace zk {
         ajaxReqInf: zk.AuRequestInfo | null;
         ajaxReqTries: number | null;
         ajaxSettings: JQuery.AjaxSettings;
-        ajaxErrorHandler: AjaxErrorHandler | undefined;
+        ajaxErrorHandler?: AjaxErrorHandler;
         cmd0: Record<string, Function>;
         cmd1: Record<string, Function>;
-        disabledRequest: boolean;
-        doAfterProcessWgts: zk.Widget[] | null;
-        doneTime: number;
+        disabledRequest?: boolean;
+        doAfterProcessWgts?: zk.Widget[] | null;
+        doneTime?: number;
         pendingReqInf: zk.AuRequestInfo | null;
-        processPhase: string | null;
-        sentTime: number;
+        processPhase?: string | null;
+        sentTime?: number;
         seqId: number;
-        _cInfoReg: boolean;
-        _clientInfo: Array<unknown> | null;
+        _cInfoReg?: boolean;
+        _clientInfo?: Array<unknown> | null;
         _errCode: string | number | null;
         _errURIs: Record<string, string>;
 
