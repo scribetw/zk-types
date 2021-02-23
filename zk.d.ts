@@ -141,6 +141,7 @@ declare namespace zk {
         widgetName: string;
         z_rod: boolean;
 
+        $binder(): zk.Binder | null;
         $f(): {[id: string]: Widget};
         $f(id: string, global?: boolean): Widget;
         $init(props?: {[prop: string]: any}): void;
