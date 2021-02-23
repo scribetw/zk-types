@@ -44,7 +44,7 @@ declare namespace zk {
         appendAttr(nm: string, val: any, force?: boolean): string;
         convertDataURLtoBlob(dataURL: string): Blob;
         decodeXML(txt: string): string;
-        destroyProgressbox(id: string, opts?: Partial<{ busy: boolean; }>): void;
+        destroyProgressbox(id: string, opts?: Partial<ProgressboxOptions>): void;
         encodeXML(txt: string, opts?: Partial<EncodeXmlOptions>): string;
         encodeXMLAttribute(txt: string): string;
         fireShown(wgt: zk.Widget, bfsz?: number): void;
@@ -59,10 +59,10 @@ declare namespace zk {
         isChar(cc: string, opts?: Partial<IsCharOptions>): boolean;
         isImageLoading(): boolean;
         loadImage(url: string): void;
-        mapToString(map: any, assign?: string, separator?: string): string;
+        mapToString(map: Record<string, unknown>, assign?: string, separator?: string): string;
         /** @deprecated */ now(): number;
         parseMap(text: string, separator?: string, quote?: string): {[key: string]: string};
-        progressbox(id: string, msg: string, mask: boolean, icon?: string | null, opts?: Partial<ProgressboxOptions>): void;
+        progressbox(id: string, msg: string, mask?: boolean, icon?: string | null, opts?: Partial<ProgressboxOptions>): void;
         stringToInts(text: null, defaultValue: number): null;
         stringToInts(text: string, defaultValue: number): number[];
         today(full: boolean, tz: string): Date;

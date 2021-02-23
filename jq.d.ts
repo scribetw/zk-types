@@ -21,8 +21,18 @@ declare namespace zk {
 
     interface JQueryStaticExtension extends JQueryStatic {
         borders: {l: string; r: string; t: string; b: string};
+        browser: {
+            chrome?: boolean;
+            mozilla?: boolean;
+            msie?: boolean;
+            opera?: boolean;
+            safari?: boolean;
+            version: string;
+            webkit?: boolean;
+        };
         margins: {l: string; r: string; t: string; b: string};
         paddings: {l: string; r: string; t: string; b: string};
+        isReady: boolean; // expose jQuery undocumented property
     
         $$(id: '', subId?: string): null;
         $$(id: string, subId?: string): NodeList;
@@ -58,6 +68,7 @@ declare namespace zk {
         px0(v: number): string;
         scrollbarWidth(): number;
         toJSON(obj: any, replace?: (key: any, value: any) => any): string;
+        uaMatch(ua: string): { browser: string; version: string };
         unSyncScroll(wgt: any): void;
         unzsync(obj: any): void;
         zsync(org: any): void;

@@ -18,10 +18,17 @@ declare namespace zk {
     interface ObjectStatic {
         isAssignableFrom(cls: Class): boolean;
         isInstance(o: any): boolean;
+        prototype: zk.Object;
     }
 
     interface Object {
+        _$ais: (() => void)[] | null;
+        _$proxies: WeakMap<Function, Function>;
+        _$super?: zk.Object;
+        _$supers?: Record<string, zk.Object | undefined>;
         $class: Class;
+        $copyf: Class;
+        $copied: boolean;
         $oid: number;
 
         new (...args: unknown[]): this;
@@ -52,8 +59,9 @@ declare namespace zk {
         _ndt: number;
         all: Record<string, zk.Desktop>;
 
-        $(dtid: string): zk.Desktop;
+        $(dtid: string): zk.Desktop | null;
         sync(timeout: number): zk.Desktop | null;
+        new (dtid: string, contextURI?: string, updateURI?: string, reqURI?: string, stateless?: boolean): zk.Desktop;
     }
 
     interface Desktop extends Widget {
@@ -88,8 +96,8 @@ declare namespace zk {
         target: zk.Widget;
         [dataKey: string]: any; // If data is an instance of Map, its content is copied to the event instance.
 
-        new(target: zk.Widget | null, name: string, data: any,
-            opts: Partial<EventOptions>,
+        new(target: zk.Widget | null, name: string, data?: any,
+            opts?: Partial<EventOptions>,
             domEvent?: JQueryEventObject): Event;
         addOptions(opts: Partial<EventOptions>): void;
         stop(opts?: Partial<EventStopOptions>): void;
@@ -116,19 +124,19 @@ declare namespace zk {
     interface Widget extends Object {
         $weave: any;
         autag: string;
-        readonly bindLevel: number;
+        bindLevel: number;
         className: string;
-        readonly desktop: Desktop;
+        desktop: Desktop;
         effects_: Record<string, zk.Object>;
-        readonly firstChild: Widget | null;
-        readonly id: string;
+        firstChild: Widget | null;
+        id: string;
         insertingBefore_: boolean;
-        readonly inServer: boolean;
-        readonly lastChild: Widget | null;
-        readonly nChildren: number;
-        readonly nextSibling: Widget | null;
-        readonly parent: Widget | null;
-        readonly previousSibling: Widget | null;
+        inServer: boolean;
+        lastChild: Widget | null;
+        nChildren: number;
+        nextSibling: Widget | null;
+        parent: Widget | null;
+        previousSibling: Widget | null;
         uuid: string;
         widgetName: string;
         z_rod: boolean;
@@ -318,6 +326,13 @@ declare namespace zk {
         [key: string]: any;
     }
 
+    interface Page extends zk.Widget {
+        className: 'zk.Page';
+        contained: Page[];
+        widgetName: 'page';
+        z_virnd: true;
+    }
+
     interface WidgetStatic extends ObjectStatic {
         auDelay: number;
 
@@ -339,93 +354,113 @@ declare namespace zk {
         setUuid(wgt: zk.Widget, uuid: string): void;
     }
 
+    type DataHandler = (wgt: zk.Widget, val: unknown) => void;
+
     interface ZKCoreUtilityStatic {
         _anique: Record<string, Anima[]>;
         _crWgtUuids: string[];
         _focusByClearBusy: boolean;
+        _Erbx: any;
         _isReloadingInObsolete: boolean;
-        _prevFocus: zk.Widget | undefined | null;
-        readonly _wgtutl: zk.WidgetUtil;
-        readonly agent: string;
-        readonly air: boolean;
-        readonly alerting: boolean;
-        readonly android: boolean;
+        _noESC: number;
+        _prevFocus?: zk.Widget | null;
+        _wgtutl: zk.WidgetUtil;
+        agent: string;
+        air: boolean;
+        alerting: boolean;
+        android: boolean;
         appName: string;
         ausending: boolean;
         bmk: Record<string, any>;
-        readonly Buffer: Buffer;
-        readonly booted: boolean;
-        readonly build: string;
-        readonly busy: number;
-        readonly chrome: boolean;
-        readonly classes: {[id: number]: any};
-        readonly clickPointer: zk.Offset;
+        Buffer: Buffer;
+        booted: boolean;
+        build: string;
+        busy: number;
+        chrome?: boolean;
+        Class: zk.Class;
+        classes: Record<number, unknown>;
+        clickPointer: zk.Offset;
         clientinfo: Record<string, unknown>;
-        confirmClose: string | undefined;
-        readonly css3: boolean;
-        currentFocus: zk.Widget | undefined | null;
-        currentModal: zk.Widget | undefined | null;
-        readonly currentPointer: zk.Offset;
-        readonly Desktop: zk.DesktopStatic;
+        confirmClose?: string;
+        contextURI: string;
+        css3?: boolean;
+        currentFocus?: zk.Widget | null;
+        currentModal?: zk.Widget | null;
+        currentPointer: zk.Offset;
+        dataHandlers?: Record<string, string | DataHandler>;
+        debugJS: boolean;
+        Desktop: zk.DesktopStatic;
         DECIMAL: string;
-        readonly Event: zk.Event;
-        readonly edge: number | false;
-        readonly edge_legacy: number | false;
+        Draggable: zk.Object;
+        Event: zk.Event;
+        edge?: string | false;
+        edge_legacy?: number | string | false;
         eff: Record<string, zk.Object>;
-        readonly ff: number | false;
+        feature: {
+            standard: true;
+            pe?: boolean;
+            ee?: boolean;
+        };
+        ff?: number | string | false;
         focusBackFix: boolean;
-        readonly gecko: number | undefined;
+        gecko?: number | string | false;
         GROUPING: string;
-        readonly ie: number | undefined;
-        readonly ie6: boolean | undefined;
-        readonly ie6_: boolean | undefined;
-        readonly ie7: boolean | undefined;
-        readonly ie7_: boolean | undefined;
-        readonly ie8: boolean | undefined;
-        readonly ie8_: boolean | undefined;
-        readonly ie8c: boolean | undefined;
-        readonly ie9: boolean | undefined;
-        readonly ie9_: boolean | undefined;
-        readonly ie10: boolean | undefined;
-        readonly ie10_: boolean | undefined;
-        readonly ie11: boolean | undefined;
-        readonly ie11_: boolean | undefined;
-        readonly iex: number | undefined;
-        readonly ios: string | false;
-        readonly ipad: string | false;
+        ie?: number;
+        ie6?: boolean;
+        ie6_?: boolean;
+        ie7?: boolean;
+        ie7_?: boolean;
+        ie8?: boolean;
+        ie8_?: boolean;
+        ie8c?: boolean;
+        ie9?: boolean;
+        ie9_?: boolean;
+        ie10?: boolean;
+        ie10_?: boolean;
+        ie11?: boolean;
+        ie11_?: boolean;
+        iex?: number | string | false;
+        ios: string | boolean;
+        ipad: string | boolean;
         isTimeout: boolean;
-        keyCapture: zk.Widget | undefined;
-        readonly linux: boolean;
-        readonly loading: number;
+        keyCapture?: zk.Widget;
+        linux: boolean;
+        loading: number;
         MINUS: string;
-        readonly mac: boolean;
-        readonly mobile: string | false;
+        mac: boolean;
+        mobile: string | boolean;
         mounting: boolean;
-        mouseCapture: zk.Widget | undefined;
+        mouseCapture?: zk.Widget;
         mm: any;
-        readonly Object: ObjectStatic;
-        readonly opera: number | undefined;
+        Object: ObjectStatic;
+        opera?: number | string | false;
+        Page: zk.Page;
         PER_MILL: string;
         PERCENT: string;
         pfmeter: boolean;
-        portlet2Data: Record<string, Portlet2Data> | undefined;
+        pi?: number;
+        portlet2Data?: Record<string, Portlet2Data>;
         procDelay: number;
-        readonly processing: boolean;
+        processing: boolean;
+        processMask?: boolean;
         resendTimeout: number;
-        readonly safari: boolean;
+        resourceURI: string;
+        safari?: boolean;
+        Service: zk.Object;
         rmDesktoping: boolean;
         skipBfUnload: boolean;
         spaceless: boolean;
         timeout: number;
         timerAlive: boolean;
         tipDelay: number;
-        readonly unloading: boolean;
-        readonly vendor: string;
-        readonly vendor_: string;
-        readonly version: string;
+        unloading: boolean;
+        updateURI: string;
+        vendor: string;
+        vendor_: string;
+        version: string;
         visibilitychange: boolean;
-        readonly webkit: boolean;
-        readonly Widget: WidgetStatic;
+        webkit?: boolean;
+        Widget: WidgetStatic;
         xhrWithCredentials: boolean;
 
         (selector: string): JQZK;
@@ -433,9 +468,11 @@ declare namespace zk {
         (elementArray: Element[]): JQZK;
         (object: JQuery): JQZK;
 
+        _set(o, name: string, value, extra?);
+        _set2(o, mtd: CallableFunction, name: string, value, extra?);
         $(n: any, opts?: Partial<{exact: boolean; strict: boolean; child: boolean}>): zk.Widget | null;
         $default<T>(opts: any, defaults: T): T;
-        $extends<S extends Class, D, D2>(superclass: S, members: D & ThisType<D & (S extends zul.WidgetStatic ? zul.Widget : Widget)>, staticMembers?: D2): object;
+        $extends<S extends Class, D, D2>(superclass: S, members: D & ThisType<D & (S extends zul.WidgetStatic ? zul.Widget : Widget)>, staticMembers?: D2): any;
         $import(name: string, fn?: any): any;
         $intercepts(targetClass: Class, interceptor: any): void;
         $package(name: string): any;
@@ -467,7 +504,7 @@ declare namespace zk {
         getDataHandler(): any;
         getHost(pkg: string, js: boolean): string;
         getVersion(pkg: string): string;
-        hasDataHandler(): boolean;
+        hasDataHandler(name: string): boolean;
         isClass(cls: any): boolean;
         isLoaded(pkg: string, loading: boolean): boolean;
         isObject(o: any): boolean;
@@ -481,14 +518,13 @@ declare namespace zk {
         override(dst: any, nm: string, val: any): any;
         parseFloat(v: string): number;
         parseInt(v: string, b?: number): number;
-        resourceURI(uri: string, version?: string): string;
         set(dst: any, src: any, props: any[], ignoreUndefined: boolean): any;
         set(o: any, name: string, value: any, extra: any): any;
         setHost(host: string, updURI: string, pkgs: string[]): void;
+        setLoaded(pkg: string): void;
         setScriptLoaded(name: string): void;
         setVersion(pkg: string, ver: string): void;
-        stamp(): any;
-        stamp(name: string, noAutoLog: boolean): void;
+        stamp(name?: string, noAutoLog?: boolean): void;
         startProcessing(timeout: number, sid?: number): void;
         stateless(dtid?: string, contextURI?: string, updateURI?: string, reqURI?: string): any;
     }

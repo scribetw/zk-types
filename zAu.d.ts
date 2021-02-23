@@ -23,7 +23,7 @@ declare namespace zk {
 
     interface AuCommands extends Array<AuCommand> {
         rid?: number;
-        dt?: zk.Desktop;
+        dt?: zk.Desktop | null;
         pfIds?: string | null;
         rtags?: Record<string, unknown>;
     }

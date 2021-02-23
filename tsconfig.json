@@ -3,7 +3,8 @@
         "module": "commonjs",
         "lib": [
             "es5",
-            "dom"
+            "dom",
+            "ES2015.Collection"
         ],
         "noImplicitAny": true,
         "noImplicitThis": true,
