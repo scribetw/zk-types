@@ -60,7 +60,7 @@ declare namespace zk {
         all: Record<string, zk.Desktop>;
 
         $(dtid: string): zk.Desktop | null;
-        sync(timeout: number): zk.Desktop | null;
+        sync(timeout?: number): zk.Desktop | null;
         new (dtid: string, contextURI?: string, updateURI?: string, reqURI?: string, stateless?: boolean): zk.Desktop;
     }
 
@@ -87,7 +87,7 @@ declare namespace zk {
         auStopped: boolean;
         currentTarget: zk.Widget;
         data: any;
-        domEvent: JQueryEventObject;
+        domEvent: JQuery.Event;
         domStopped: boolean;
         domTarget: HTMLElement;
         name: string;
@@ -98,7 +98,7 @@ declare namespace zk {
 
         new(target: zk.Widget | null, name: string, data?: any,
             opts?: Partial<EventOptions>,
-            domEvent?: JQueryEventObject): Event;
+            domEvent?: JQuery.Event): Event;
         addOptions(opts: Partial<EventOptions>): void;
         stop(opts?: Partial<EventStopOptions>): void;
     }
@@ -122,6 +122,7 @@ declare namespace zk {
     }
 
     interface Widget extends Object {
+        _scrollbar?: any;
         $weave: any;
         autag: string;
         bindLevel: number;
@@ -391,6 +392,7 @@ declare namespace zk {
         dataHandlers?: Record<string, string | DataHandler>;
         debugJS: boolean;
         Desktop: zk.DesktopStatic;
+        delayQue: Record<string, Function[]>;
         DECIMAL: string;
         Draggable: zk.Object;
         Event: zk.Event;
@@ -489,7 +491,7 @@ declare namespace zk {
         ajaxURI(uri: string | null, opts?: any): string;
         animating(): boolean;
         beforeUnload(fn: () => string | null, opts?: {remove: boolean}): void;
-        copy(dst: object, src: object, backup?: object): object;
+        copy<T>(dst: T, src: ThisType<T>, backup?: object): object;
         cut(props: any, nm: string): object;
         debugLog(msg: string): void;
         define(klass: any, props: any): any;
@@ -507,16 +509,16 @@ declare namespace zk {
         getVersion(pkg: string): string;
         hasDataHandler(name: string): boolean;
         isClass(cls: any): boolean;
-        isLoaded(pkg: string, loading: boolean): boolean;
+        isLoaded(pkg: string, loading?: boolean): boolean;
         isObject(o: any): boolean;
         load(pkg: string, dt: any, func: Function): boolean;
         load(pkg: string, func: Function): boolean;
         loadCSS(href: string, id: string, media: string): ZKCoreUtilityStatic;
         loadScript(src: string, name: string, charset: string, force: boolean): ZKCoreUtilityStatic;
         log(...detailed: any[]): void;
-        override(oldfunc: Function, newfunc: Function): Function;
-        override(dst: any, backup: any, src: any): any;
-        override(dst: any, nm: string, val: any): any;
+        override<T>(oldfunc: T, newfunc: Function & ThisType<T>): T;
+        override<T>(dst: T, backup: any, src: ThisType<T>): T;
+        override<T>(dst: T, nm: string, val: ThisType<T>): T;
         parseFloat(v: string): number;
         parseInt(v: string, b?: number): number;
         set(dst: any, src: any, props: any[], ignoreUndefined: boolean): any;
@@ -584,11 +586,13 @@ declare namespace zk {
         center(flags?: string): this;
         cleanVisibility(): JQuery;
         clearStyles(): this;
+        clientHeightDoubleValue(): number;
+        clientWidthDoubleValue(): number;
         cmOffset(): zk.Offset;
         contentHeight(excludeMargin?: boolean): number;
         contentWidth(excludeMargin?: boolean): number;
         defaultAnimaOpts(wgt: zk.Widget, opts: Partial<SlideOptions>, prop: string[], visible?: boolean): this;
-        detachChildren(): ChildNode[] | null;
+        detachChildren(): HTMLElement[] | null;
         dimension(revised?: boolean): Dimension;
         disableSelection(): this;
         enableSelection(): this;
@@ -602,7 +606,7 @@ declare namespace zk {
         isOverlapped(el: HTMLElement, tolerant?: number): boolean;
         isRealScrollIntoView(): boolean;
         isRealVisible(strict?: boolean): boolean;
-        isScrollIntoView(): boolean;
+        isScrollIntoView(recursive?: boolean): boolean;
         isVisible(strict?: boolean): boolean;
         makeVParent(): this;
         marginHeight(): number;
@@ -641,6 +645,7 @@ declare namespace zk {
         submit(): this;
         sumStyles(areas: string, styles: {[cssProp: string]: string}): number;
         textSize(text?: string): [number, number];
+        textWidth(text?: string): number;
         toStyleOffset(x: number, y: number): zk.Offset;
         undoVParent(): this;
         vflexHeight(): number;

@@ -16,8 +16,9 @@ declare namespace zk {
     interface ZJQ {
         eventTypes: {[key: string]: string};
         src0: string;
-        prototype: Record<string, unknown>;
-    
+        prototype: zk.JQZK;
+
+        new (ret: JQuery | HTMLElement): zk.JQZK;
         _afterOuter(o: Element): void;
         _beforeOuter(el: Element): Node;
         _cleanVisi(n: Element): void;

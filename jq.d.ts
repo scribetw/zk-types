@@ -41,6 +41,7 @@ declare namespace zk {
         clearSelection(): boolean;
         confirm(msg: string): boolean;
         css(elem: Node, name: string): string;
+        css(elem: Node, name: string, numeric: true): number;
         css(elem: Node, name: string, extra: 'styleonly', styles?: CSSStyleDeclaration): number;
         d2j(d: Date | DateImpl): string;
         doSyncScroll(): void;
@@ -102,26 +103,31 @@ declare namespace zk {
     }
 }
 
+// extension of JQuery
 interface JQuery {
+    selector?: string; // expose
     zk: zk.JQZK;
+
     after(widget: zk.Widget, dt?: zk.Desktop): this;
     append(widget: zk.Widget, dt?: zk.Desktop): this;
     before(widget: zk.Widget, dt?: zk.Desktop): this;
     prepend(widget: zk.Widget, dt?: zk.Desktop): this;
 }
 
-interface JQueryEventObject {
-    stop(): void;
-    mouseData(): zk.EventMouseData;
-    keyData(): zk.EventKeyData;
-    metaData(): zk.EventMetaData;
-}
+declare namespace JQuery {
+    interface Event {
+        stop(): void;
+        mouseData(): zk.EventMouseData;
+        keyData(): zk.EventKeyData;
+        metaData(): zk.EventMetaData;
+    }
 
-interface JQueryEventConstructor {
-    filterMetaData(data: Record<string, unknown>): zk.EventMetaData;
-    fire(el: Element, evtnm: string): void;
-    stop(evt: JQueryEventObject): void;
-    zk(evt: JQueryEventObject, wgt: zk.Widget): zk.Event;
+    interface EventStatic {
+        filterMetaData(data: Record<string, unknown>): zk.EventMetaData;
+        fire(el: Element, evtnm: string): void;
+        stop(evt: Event): void;
+        zk(evt: Event, wgt: zk.Widget): zk.Event;
+    }
 }
 
 declare var jq: zk.JQueryStaticExtension;
