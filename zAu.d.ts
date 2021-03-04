@@ -71,7 +71,7 @@ declare namespace zk {
         _respException(response: Response, reqInf: zk.AuRequestInfo, e: Error): boolean;
         _respFailure(response: Response, reqInf: zk.AuRequestInfo, rstatus: number): boolean;
         _respSuccess(response: Response, reqInf: zk.AuRequestInfo, sid: number): boolean;
-        _rmDesktop(dt: zk.Desktop, dummy: boolean): void;
+        _rmDesktop(dt: zk.Desktop, dummy?: boolean): void;
         _rmDesktopAjax(url: string, data: string, headers: Record<string, string>): void;
         _resetTimeout(): void;
         _storeStub(wgt: zk.Widget): void;
