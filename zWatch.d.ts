@@ -14,6 +14,7 @@ it will be useful, but WITHOUT ANY WARRANTY.
 */
 declare namespace zk {
     interface ClientActivity {
+        _beforeSizeForRead: any;
         beforeSize: any;
         afterSize: any;
         onBindLevelChange: any;
@@ -33,6 +34,8 @@ declare namespace zk {
     interface FireOptions {
         reverse: boolean;
         timeout: number;
+        triggerByFocus: boolean;
+        triggerByClick: number;
         rtags: {[key: string]: any};
     }
 
