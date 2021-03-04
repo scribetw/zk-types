@@ -24,3 +24,4 @@ it will be useful, but WITHOUT ANY WARRANTY.
 /// <reference path="zkex.d.ts" />
 /// <reference path="zkmax.d.ts" />
 /// <reference path="zkbind.d.ts" />
+/// <reference path="zFlex.d.ts" />
