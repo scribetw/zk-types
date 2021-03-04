@@ -38,7 +38,7 @@ declare namespace zk {
         $super(mtd: string, ...vararg: any[]): any;
         $supers(klass: Class, mtd: string, args: ArrayLike<any>): any;
         $supers(mtd: string, args: ArrayLike<any>): any;
-        afterInit(func: () => void): void;
+        afterInit(func: (this: this) => void): void;
         // ref: https://github.com/Microsoft/TypeScript/pull/27028
         proxy<A extends any[], R>(func: (...args: A) => R): (...args: A) => R;
         proxy<A0, A extends any[], R>(func: (arg0: A0, ...args: A) => R): (arg0: A0, ...args: A) => R;
@@ -52,14 +52,18 @@ declare namespace zk {
         restore(wgt: Widget, inf: any): void;
         skip(wgt: Widget, skipId?: string): HTMLElement;
         skipped(wgt: Widget, child: Widget): boolean;
+
+        nonCaptionSkipper: this;
     }
 
+    type DesktopAccessor = string | Widget | HTMLElement | null;
     interface DesktopStatic {
         _dt: zk.Desktop | null;
         _ndt: number;
         all: Record<string, zk.Desktop>;
 
-        $(dtid: string): zk.Desktop | null;
+        $(dtid: DesktopAccessor): zk.Desktop | null;
+        isInstance(dtid: DesktopAccessor): boolean;
         sync(timeout?: number): zk.Desktop | null;
         new (dtid: string, contextURI?: string, updateURI?: string, reqURI?: string, stateless?: boolean): zk.Desktop;
     }
@@ -128,7 +132,7 @@ declare namespace zk {
         bindLevel: number;
         className: string;
         desktop: Desktop;
-        effects_: Record<string, zk.Object>;
+        effects_: Record<string, zk.Effect>;
         firstChild: Widget | null;
         id: string;
         insertingBefore_: boolean;
@@ -151,15 +155,15 @@ declare namespace zk {
         $o(): Widget;
         $s(): string;
         $s(subId: string): string;
-        $service(): any;
+        $service(): Service | null;
         afterAnima_(visible: boolean): void;
         afterParentChanged_(oldparent: Widget): void;
         appendChild(child: Widget, ignoreDom?: boolean): boolean;
         beforeParentChanged_(newparent: Widget): void;
         beforeSendAU_(wgt: Widget, evt: Event): void;
-        bind_(dt?: Desktop, skipper?: Skipper, after?: any[]): void;
-        bind(dt?: Desktop, skipper?: Skipper): void;
-        bindChildren_(dt?: Desktop, skipper?: Skipper, after?: any[]): void;
+        bind_(dt?: Desktop| null, skipper?: Skipper | null, after?: (() => void)[]): void;
+        bind(dt?: Desktop| null, skipper?: Skipper | null): void;
+        bindChildren_(dt?: Desktop| null, skipper?: Skipper| null, after?: (() => void)[]): void;
         bindDoubleTap_(): void;
         bindSwipe_(): void;
         bindTapHold_(): void;
@@ -195,12 +199,12 @@ declare namespace zk {
         doRightClick_(evt: Event): void;
         doSelect_(evt: Event): void;
         doSwipe_(evt: Event): void;
-        doTooltipOut_(): void;
-        doTooltipOver_(): void;
+        doTooltipOut_(evt: Event): void;
+        doTooltipOver_(evt: Event): void;
         dropEffect_(over: boolean): void;
         extraBind_(uuid: string, add: boolean): void;
-        fire(evtnm: string, data: any, opts?: any, timeout?: number): Event;
-        fireX(evt: Event, timeout?: number): void;
+        fire(evtnm: string, data?: any, opts?: any, timeout?: number): Event;
+        fireX(evt: Event, timeout?: number): Event;
         focus_(timeout: number): boolean;
         focus(timeout?: number): boolean;
         forcerender(): void;
@@ -218,7 +222,7 @@ declare namespace zk {
         getDrop_(dragged: Widget): Widget;
         getDroppable(): string;
         getFirstNode_(): HTMLElement;
-        getFloatZIndex_(node: Element): number;
+        getFloatZIndex_(node: Element): number | string;
         getHeight(): string;
         getHflex(): string;
         getId(): string;
@@ -232,7 +236,7 @@ declare namespace zk {
         getScrollTop(): number;
         getStyle(): string;
         getTabindex(): number;
-        getTextNode(): HTMLElement;
+        getTextNode(): HTMLElement | null;
         getTooltiptext(): string;
         getTop(): string;
         getTopWidget(): Widget | null;
@@ -266,10 +270,10 @@ declare namespace zk {
         redrawHTML_(skipper?: Skipper, trim?: boolean): string;
         removeChild(child: Widget, ignoreDom?: boolean): boolean;
         removeChildHTML_(child: Widget, ignoreDom?: boolean): void;
-        removeHTML_(n: any[]): void;
+        removeHTML_(n?: any[]): void;
         replaceCavedChildren_(subId: string, wgts: Widget[], tagBeg: string, tagEnd: string): void;
-        replaceChildHTML_(child: Widget, n: Element, dt: Desktop, skipper: Skipper): void;
-        replaceHTML(n: Element, desktop: Desktop, skipper: Skipper): Widget;
+        replaceChildHTML_(child: Widget, n: Element, dt: Desktop | null, skipper: Skipper | null, _trim_?: boolean): void;
+        replaceHTML(n: Element | string, desktop: Desktop | null, skipper: Skipper | null, _trim_?: boolean): Widget;
         replaceWidget(newwgt: Widget): void;
         rerender(timeout?: number): Widget;
         rerender(skipper?: Skipper): Widget;
@@ -280,7 +284,7 @@ declare namespace zk {
         set(name: string, value: any, extra?: any): Widget;
         setAction(action: string): void;
         setChildren(children: Widget[]): Widget;
-        setDomVisible_(n: Element, visible: boolean, opts?: {display?: boolean; visibility?: boolean}): void;
+        setDomVisible_(n: Element, visible: boolean, opts?: Partial<{display: boolean; visibility: boolean}>): void;
         setDraggable(draggable: string): Widget;
         setDroppable(droppable: string): Widget;
         setFloating_(floating: boolean, opts?: {node?: Element}): Widget;
@@ -312,9 +316,9 @@ declare namespace zk {
         shallIgnoreClick_(evt: Event): boolean;
         show(): Widget;
         smartUpdate(name: string, value: any, timeout?: number): Widget;
-        unbind_(skipper?: Skipper, after?: any[], keepRod?: boolean): void;
-        unbind(dt?: Desktop, skipper?: Skipper, keepRod?: boolean): Widget;
-        unbindChildren_(skipper?: Skipper, after?: any[], keepRod?: boolean): void;
+        unbind_(skipper?: Skipper | null, after?: (() => void)[], keepRod?: boolean): void;
+        unbind(dt?: Desktop, skipper?: Skipper | null, keepRod?: boolean): Widget;
+        unbindChildren_(skipper?: Skipper, after?: (() => void)[], keepRod?: boolean): void;
         unbindDoubleTap_(): void;
         unbindSwipe_(): void;
         unbindTapHold_(): void;
@@ -335,6 +339,49 @@ declare namespace zk {
         z_virnd: true;
     }
 
+    interface NativeStatic {
+        new (): Native;
+        $redraw(out: zk.Buffer): void;
+        replaceScriptContent(str: string): string;
+    }
+
+    interface Native extends zk.Widget {
+        className: 'zk.Native';
+        widgetName: 'native';
+        z_virnd: true;
+
+        $redraw(out: zk.Buffer): void;
+        replaceScriptContent(str: string): string;
+    }
+
+    interface Macro extends zk.Widget {
+        className: 'zk.Macro';
+        widgetName: 'macro';
+    }
+
+    interface NoDOM {
+        bind_(this: zk.Widget): void;
+        removeHTML_(this: zk.Widget, n: HTMLElement): void;
+        setDomVisible_(this: zk.Widget, n: Element, visible: boolean, opts?: Partial<{display: boolean; visibility: boolean}>): void;
+        isRealVisible(this: zk.Widget): void;
+        getFirstNode_(this: zk.Widget): void;
+        insertChildHTML_(this: zk.Widget, child: Widget, before: Widget | null, desktop: Desktop): void;
+        detach(this: zk.Widget): void;
+        getOldWidget_(this: zk.Widget, n: Element): void;
+        replaceHTML(this: zk.Widget, n: Element | string, desktop: Desktop | null, skipper: Skipper | null, _trim_?: boolean): void;
+        replaceWidget(this: zk.Widget, newwgt: zk.Widget): void;
+        $n(this: zk.Widget, subId?: string): void;
+        redraw(this: zk.Widget, out: zk.Buffer): void;
+        ignoreFlexSize_(this: zk.Widget): void;
+        ignoreChildNodeOffset_(this: zk.Widget): void;
+        isExcludedHflex_(this: zk.Widget): void;
+        isExcludedVflex_(this: zk.Widget): void;
+    }
+
+    interface Effect extends Object {
+        destroy(): void;
+    }
+
     interface WidgetStatic extends ObjectStatic {
         auDelay: number;
 
@@ -351,15 +398,74 @@ declare namespace zk {
     }
 
     interface WidgetUtil {
-        autohide(): boolean;
+        autohide(): void;
         replace(from: zk.Widget, to: zk.Widget, kids: boolean): void;
         setUuid(wgt: zk.Widget, uuid: string): void;
     }
 
     type DataHandler = (wgt: zk.Widget, val: unknown) => void;
 
+    interface DragDrop {
+        getDropTarget(evt: zk.Event, drag?: any): zk.Widget | null;
+        getDrop(drag: any, pt: zk.Offset, evt: zk.Event): zk.Widget | null;
+        ghost(drag: any, ofs: zk.Offset, msg?: string): HTMLElement;
+    }
+
+    interface ZKServiceStatic {
+        $(n: any, opts?: any): Service | null;
+    }
+
+    interface Service extends Object {
+        new (widget: zk.Widget, currentTarget: zk.Widget): this;
+        $doAfterCommand(cmd: string, args: any[]): void;
+        after(cmd: string, fn: (...args: any[]) => void): this;
+        command(cmd: string, args: any[], opts: Partial<EventOptions>, timeout?: number): this;
+        destroy(): void;
+        unAfter(cmd: string, fn: (...args: any[]) => void): this;
+    }
+
+    interface RefWidget extends Widget {
+        new (): this;
+        className: 'zk.RefWidget';
+        widgetName: 'refWidget';
+    }
+
+    interface HistoryState {
+        enabled: boolean;
+        onPopState(event: PopStateEvent): void;
+        register(): void;
+    }
+
+    interface DraggableStatic {
+        new (control, node, opts): Draggable;
+        ignoreClick(): boolean;
+        ignoreMouseUp(): boolean;
+        /** @deprecated */ ignoreStop(target: HTMLElement): boolean;
+    }
+
+    interface Draggable extends Object {
+        _currentDelta(): zk.Offset;
+        _draw(point, evt: zk.Event): void;
+        _endDrag(evt: zk.Event): void;
+        _finishDrag(evt: zk.Event, success): void;
+        _getWndScroll(w): void;
+        _keypress(devt: jQuery.Event): void;
+        _mousedown(devt: jQuery.Event): void;
+        _scroll(): void;
+        _startDrag(evt: zk.Event): void;
+        _startScrolling(speed): void;
+        _stopScrolling(): void;
+        _syncStackup(): void;
+        _updateDrag(pt, evt: zk.Event): void;
+        _updateInnerOfs(): void;
+        destroy(): void;
+        snap_(pos: zk.Offset, opts): zk.Offset;
+    }
+
     interface ZKCoreUtilityStatic {
+        _avoidRod?: boolean;
         _anique: Record<string, Anima[]>;
+        _cfByMD?: boolean;
         _crWgtUuids: string[];
         _focusByClearBusy: boolean;
         _Erbx: any;
@@ -375,9 +481,11 @@ declare namespace zk {
         ausending: boolean;
         bmk: Record<string, any>;
         Buffer: Buffer;
+        Body: Page;
         booted: boolean;
         build: string;
         busy: number;
+        cfrg?: [number, number];
         chrome?: boolean;
         Class: zk.Class;
         classes: Record<number, unknown>;
@@ -394,7 +502,8 @@ declare namespace zk {
         Desktop: zk.DesktopStatic;
         delayQue: Record<string, Function[]>;
         DECIMAL: string;
-        Draggable: zk.Object;
+        DnD: DragDrop;
+        Draggable: DraggableStatic;
         Event: zk.Event;
         edge?: string | false;
         edge_legacy?: number | string | false;
@@ -408,6 +517,8 @@ declare namespace zk {
         focusBackFix: boolean;
         gecko?: number | string | false;
         GROUPING: string;
+        groupingDenied?: boolean;
+        historystate: HistoryState;
         ie?: number;
         ie6?: boolean;
         ie6_?: boolean;
@@ -426,15 +537,19 @@ declare namespace zk {
         ios: string | boolean;
         ipad: string | boolean;
         isTimeout: boolean;
+        keepDesktop?: boolean;
         keyCapture?: zk.Widget;
         linux: boolean;
         loading: number;
+        Macro: Macro;
         MINUS: string;
         mac: boolean;
         mobile: string | boolean;
         mounting: boolean;
         mouseCapture?: zk.Widget;
         mm: any;
+        Native: NativeStatic;
+        NoDOM: NoDOM;
         Object: ObjectStatic;
         opera?: number | string | false;
         Page: zk.Page;
@@ -446,10 +561,13 @@ declare namespace zk {
         procDelay: number;
         processing: boolean;
         processMask?: boolean;
+        progPos?: string;
+        RefWidget: RefWidget;
         resendTimeout: number;
         resourceURI: string;
         safari?: boolean;
         Service: zk.Object;
+        Skipper: zk.Skipper;
         rmDesktoping: boolean;
         skipBfUnload: boolean;
         spaceless: boolean;
@@ -470,9 +588,10 @@ declare namespace zk {
         (element: Element): JQZK;
         (elementArray: Element[]): JQZK;
         (object: JQuery): JQZK;
+        (wgt: Widget): JQZK;
 
-        _set(o, name: string, value, extra?);
-        _set2(o, mtd: CallableFunction, name: string, value, extra?);
+        _set(o, name: string, value, extra?): void;
+        _set2(o, mtd: CallableFunction | null, name: string | null, value, extra?): void;
         $(n: any, opts?: Partial<{exact: boolean; strict: boolean; child: boolean}>): zk.Widget | null;
         $default<T>(opts: any, defaults: T): T;
         $extends<S extends Class, D, D2>(superclass: S, members: D & ThisType<D & (S extends zul.WidgetStatic ? zul.Widget : Widget)>, staticMembers?: D2): any;
@@ -504,7 +623,7 @@ declare namespace zk {
         error(msg: string): void;
         errorDismiss(): void;
         get(o: any, name: string): any;
-        getDataHandler(): any;
+        getDataHandler(name: string): any;
         getHost(pkg: string, js: boolean): string;
         getVersion(pkg: string): string;
         hasDataHandler(name: string): boolean;
@@ -519,8 +638,8 @@ declare namespace zk {
         override<T>(oldfunc: T, newfunc: Function & ThisType<T>): T;
         override<T>(dst: T, backup: any, src: ThisType<T>): T;
         override<T>(dst: T, nm: string, val: ThisType<T>): T;
-        parseFloat(v: string): number;
-        parseInt(v: string, b?: number): number;
+        parseFloat(v: string | number): number;
+        parseInt(v: string | number, b?: number): number;
         set(dst: any, src: any, props: any[], ignoreUndefined: boolean): any;
         set(o: any, name: string, value: any, extra: any): any;
         setHost(host: string, updURI: string, pkgs: string[]): void;

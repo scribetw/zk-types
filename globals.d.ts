@@ -29,6 +29,10 @@ interface Array<T> {
     $clone(): T[];
 }
 
+interface Window {
+    zkservice: zk.ZKServiceStatic;
+}
+
 // mount.js
 declare function zkdt(dtid: string, contextURI: string, updateURI: string, resourceURI: string, reqURI: string): zk.Desktop;
 declare function zkx(wi, extra, aucmds, js?: string): void;
@@ -40,6 +44,10 @@ declare function zkme(): void;
 declare function zkdh(name: string, script: string): void;
 // zk.wpd
 declare function $eval(x: string): any;
+// widget.ts
+declare function zkreg(pkg: string, load: boolean): void;
+
+declare var _zkf: any; // temp object holder
 
 declare class DateImpl extends Date {
 }
