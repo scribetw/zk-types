@@ -228,7 +228,7 @@ declare namespace zk {
         getId(): string;
         getLeft(): string;
         getMold(): string;
-        getOldWidget_(n: Element): Widget;
+        getOldWidget_(n: Element | string): Widget;
         getPage(): any;
         getRenderdefer(): number;
         getSclass(): string;
@@ -267,16 +267,16 @@ declare namespace zk {
         onChildVisible_(child: Widget): void;
         onDrop_(drag: any, evt: Event): void;
         redraw(out: string[]): void;
-        redrawHTML_(skipper?: Skipper, trim?: boolean): string;
+        redrawHTML_(skipper?: Skipper | null, trim?: boolean): string;
         removeChild(child: Widget, ignoreDom?: boolean): boolean;
         removeChildHTML_(child: Widget, ignoreDom?: boolean): void;
         removeHTML_(n?: any[]): void;
         replaceCavedChildren_(subId: string, wgts: Widget[], tagBeg: string, tagEnd: string): void;
         replaceChildHTML_(child: Widget, n: Element, dt: Desktop | null, skipper: Skipper | null, _trim_?: boolean): void;
-        replaceHTML(n: Element | string, desktop: Desktop | null, skipper: Skipper | null, _trim_?: boolean): Widget;
+        replaceHTML(n: Element | string, desktop: Desktop | null, skipper: Skipper | null, _trim_?: boolean, _callback_?: (() => void)[]): Widget;
         replaceWidget(newwgt: Widget): void;
         rerender(timeout?: number): Widget;
-        rerender(skipper?: Skipper): Widget;
+        rerender(skipper?: Skipper | null): Widget;
         rerenderLater_(): Widget;
         rerenderNow_(skipper?: Skipper | null): void;
         scrollIntoView(): Widget;
@@ -317,7 +317,7 @@ declare namespace zk {
         show(): Widget;
         smartUpdate(name: string, value: any, timeout?: number): Widget;
         unbind_(skipper?: Skipper | null, after?: (() => void)[], keepRod?: boolean): void;
-        unbind(dt?: Desktop, skipper?: Skipper | null, keepRod?: boolean): Widget;
+        unbind(skipper?: Skipper | null, keepRod?: boolean): Widget;
         unbindChildren_(skipper?: Skipper, after?: (() => void)[], keepRod?: boolean): void;
         unbindDoubleTap_(): void;
         unbindSwipe_(): void;
@@ -368,7 +368,7 @@ declare namespace zk {
         insertChildHTML_(this: zk.Widget, child: Widget, before: Widget | null, desktop: Desktop): void;
         detach(this: zk.Widget): void;
         getOldWidget_(this: zk.Widget, n: Element): void;
-        replaceHTML(this: zk.Widget, n: Element | string, desktop: Desktop | null, skipper: Skipper | null, _trim_?: boolean): void;
+        replaceHTML(this: zk.Widget, n: Element | string, desktop: Desktop | null, skipper: Skipper | null, _trim_?: boolean, _callback_?: (() => void)[]): void;
         replaceWidget(this: zk.Widget, newwgt: zk.Widget): void;
         $n(this: zk.Widget, subId?: string): void;
         redraw(this: zk.Widget, out: zk.Buffer): void;
