@@ -1,5 +1,7 @@
-Type definitions for ZK
+(Archived) Type definitions for ZK
 =======================
+
+Since ZK 9.6.0, the definition is embedded so this repo is no longer needed.
 
 ## Usage
 
